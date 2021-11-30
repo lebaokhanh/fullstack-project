@@ -16,6 +16,16 @@ class Api::CatsController < ApplicationController
     end
   end
 
+  def like
+    begin
+      cat_params = params.require(:cat)
+      favorite = Favorite.new(url: cat_params[:url], image_id: cat_params[:id], category_id: cat_params[:category_id])
+      render json: {status: :success} if favorite.save!
+    rescue => error
+      render json: { errors: error }
+    end
+  end
+
   private
 
   def client
