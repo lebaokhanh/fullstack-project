@@ -1,13 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import axios from 'axios';
+
 import App from './main/App';
+import './index.css';
 import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux';
+import storeConfig from './config/store';
+
+
+axios.interceptors.request.use((config) => {
+  config.baseURL = 'http://localhost:3010';
+  return config;
+});
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={storeConfig()}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
