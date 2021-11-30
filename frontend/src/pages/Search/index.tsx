@@ -6,7 +6,11 @@ import ImageGallery from '../../components/ImageGallery';
 import {
   SearchImagePayload,
 } from './types';
-import { onSearchImage } from "./redux";
+import {IImage} from "../../shared/types";
+import {
+  onSearchImage,
+  onLikeImage,
+} from "./redux";
 import {RootState} from "../../config/store";
 
 export default () => {
@@ -17,10 +21,14 @@ export default () => {
     dispatch(onSearchImage(params));
   }, [dispatch]);
 
+  const handleLike = useCallback((item: IImage, onSuccess: () => void, onError: () => void) => {
+    dispatch(onLikeImage(item, onSuccess, onError));
+  }, [dispatch]);
+
   return (
     <>
       <Filter onSearch={handleSearch} />
-      <ImageGallery images={images} />
+      <ImageGallery images={images} onLike={handleLike} />
     </>
   );
 }

@@ -1,6 +1,7 @@
 import {IImage} from "../../shared/types";
 import {
   ON_SEARCH_IMAGE,
+  ON_LIKE_IMAGE,
 } from './redux';
 
 export interface SearchState {
@@ -23,4 +24,16 @@ export interface SearchImageAction {
 export interface StoreImagesSuccessPayload {
   status: string;
   images: IImage[];
+}
+
+export interface LikeImageAction {
+  type: typeof ON_LIKE_IMAGE;
+  image: IImage;
+  onSuccess: () => void;
+  onError: () => void;
+}
+
+export interface RefreshImageListPayload {
+  imageId: string;
+  liked: boolean;
 }

@@ -8,11 +8,22 @@ import {IImage} from "../../shared/types";
 
 interface IImageGallery {
   images: IImage[];
+  onLike?: (item: IImage, onSuccess: () => void, onError: () => void) => void;
 }
 
-const ImageGallery = ({images}: IImageGallery) => {
+const ImageGallery = ({images, onLike}: IImageGallery) => {
   const handleClick = (item: IImage) => {
-    console.log('on image clicked')
+    if (!item.liked && onLike) {
+      onLike(item, onLikeSuccess, onLikeError);
+    }
+  }
+
+  const onLikeSuccess = () => {
+    console.log('onLikeSuccess');
+  };
+
+  const onLikeError = () => {
+    console.log('onLikeError');
   }
 
   return (
