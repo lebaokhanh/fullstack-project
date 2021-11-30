@@ -1,3 +1,5 @@
+import {IImage} from "../../shared/types";
+
 import {
   ON_GET_FAVORITES,
 } from './redux';
