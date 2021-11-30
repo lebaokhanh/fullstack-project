@@ -10,8 +10,10 @@ import {IImage} from "../../shared/types";
 import {
   onSearchImage,
   onLikeImage,
+  onDislikeImage,
 } from "./redux";
 import {RootState} from "../../config/store";
+import {Box} from "@mui/material";
 
 export default () => {
   const dispatch = useDispatch();
@@ -25,10 +27,16 @@ export default () => {
     dispatch(onLikeImage(item, onSuccess, onError));
   }, [dispatch]);
 
+  const handleDislike = useCallback((item: IImage, onSuccess: (item: IImage) => void, onError: () => void) => {
+    dispatch(onDislikeImage(item, onSuccess, onError));
+  }, [dispatch]);
+
   return (
     <>
-      <Filter onSearch={handleSearch} />
-      <ImageGallery images={images} onLike={handleLike} />
+      <Box sx={{width: '50%', height: '50%', margin: "0 auto"}}>
+        <Filter onSearch={handleSearch} />
+        <ImageGallery images={images} onLike={handleLike} onDislike={handleDislike} />
+      </Box>
     </>
   );
 }

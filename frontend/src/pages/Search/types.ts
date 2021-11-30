@@ -2,6 +2,7 @@ import {IImage} from "../../shared/types";
 import {
   ON_SEARCH_IMAGE,
   ON_LIKE_IMAGE,
+  ON_DISLIKE_IMAGE,
 } from './redux';
 
 export interface SearchState {
@@ -36,4 +37,8 @@ export interface LikeImageAction {
 export interface RefreshImageListPayload {
   imageId: string;
   liked: boolean;
+}
+
+export interface DislikeImageAction extends LikeImageAction {
+  type: typeof ON_DISLIKE_IMAGE;
 }

@@ -15,6 +15,7 @@ export const ON_SEARCH_IMAGE = actionFormatter('ON_SEARCH_IMAGE');
 export const STORE_IMAGES = actionFormatter('STORE_IMAGES');
 export const ON_LIKE_IMAGE = actionFormatter('ON_LIKE_IMAGE');
 export const REFRESH_IMAGE_LIST = actionFormatter('REFRESH_IMAGE_LIST');
+export const ON_DISLIKE_IMAGE = actionFormatter('ON_DISLIKE_IMAGE');
 
 
 export const onSearchImage = (params: SearchImagePayload): SearchImageAction => ({
@@ -33,6 +34,13 @@ export const onLikeImage = (
 
 export const refreshImageList = createAction<RefreshImageListPayload>(REFRESH_IMAGE_LIST);
 
+export const onDislikeImage = (
+  image: IImage,
+  onSuccess: (image: IImage) => void,
+  onError: () => void
+) => ({
+  type: ON_DISLIKE_IMAGE, image, onSuccess, onError
+});
 
 const INITIAL_STATE: SearchState = {
   images: []
