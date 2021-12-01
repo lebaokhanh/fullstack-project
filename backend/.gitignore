@@ -39,3 +39,6 @@ yarn-debug.log*
 /.idea
 .generators
 .DS_store
+
+# Ignore application configuration
+/config/application.yml
