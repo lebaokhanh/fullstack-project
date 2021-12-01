@@ -11,6 +11,7 @@ import storeConfig from './config/store';
 
 axios.interceptors.request.use((config) => {
   config.baseURL = 'http://localhost:3010';
+  config.withCredentials = true;
   return config;
 });
 
