@@ -7,9 +7,7 @@ class Api::SessionController < ApplicationController
       render json: {
         status: :success,
         logged_in: true,
-        user: {
-          username: @user.username
-        }
+        username: @user.username
       }
     else
       render json: {
