@@ -19,7 +19,7 @@ class Api::CatsController < ApplicationController
   def like
     begin
       cat_params = params.require(:cat)
-      favorite = Favorite.new(url: cat_params[:url], image_id: cat_params[:id], category_id: cat_params[:category_id])
+      favorite = Favorite.new(url: cat_params[:url], image_id: cat_params[:id], category_id: cat_params[:category_id], user_id: current_user.id)
       render json: {status: :success} if favorite.save!
     rescue => error
       render json: { errors: error }
@@ -38,11 +38,8 @@ class Api::CatsController < ApplicationController
 
   def list_favorites
     begin
-      if params[:category_id] == "0"
-        favorites = Favorite.all
-      else
-        favorites = ImageCategory.find_by_image_category_id(params[:category_id]).favorites
-      end
+      favorites = Favorite.by_user(current_user)
+      favorites = Favorite.by_category(params[:category_id]) if params[:category_id] != "0"
       formatted_response = favorites.map do |item|
         {
           url: item.url,
