@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   namespace :api do
     post '/user', to: 'user#create'
     post '/login', to: 'session#create'
-    post '/logout', to: 'session#delete'
+    post '/logged_in', to: 'session#is_logged_in?'
+    post '/logout', to: 'session#destroy'
     get '/cat/search', to: 'cats#search'
     get '/cat/favorites', to: 'cats#list_favorites'
     post '/cat/like', to: 'cats#like'

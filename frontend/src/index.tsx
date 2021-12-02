@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import { BrowserRouter } from "react-router-dom";
 
 import App from './main/App';
 import './index.css';
@@ -17,7 +18,9 @@ axios.interceptors.request.use((config) => {
 
 ReactDOM.render(
   <Provider store={storeConfig()}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );
