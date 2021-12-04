@@ -7,6 +7,9 @@ import {
 
 export interface FavoriteState {
   images: IImage[];
+  filters: {
+    category: number;
+  }
 }
 
 export interface StoreFavoritesPayload {
@@ -27,5 +30,9 @@ export interface DislikeImageAction {
 }
 
 export interface RemoveDislikedImagePayload {
-  imageId: string
+  imageId: string;
+}
+
+export interface UpdateCategoryPayload {
+  category: number;
 }

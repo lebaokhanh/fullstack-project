@@ -1,28 +1,34 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
 import { Select, MenuItem, InputLabel, FormControl, Button, Grid } from "@mui/material";
 import _map from 'lodash/map';
 
 import {CATEGORIES} from '../../shared/constants';
 import {IFilterOption} from '../../shared/types';
+import {useSelector} from "react-redux";
+import {RootState} from "../../config/store";
+import {updateCategory} from './redux';
 
 interface FilterProps {
   onGetFavorites: (categoryId: number) => void;
 }
 
 export default ({ onGetFavorites }: FilterProps) => {
-  const [category, setCategory] = useState(CATEGORIES[0].key);
+  const dispatch = useDispatch();
+  const category = useSelector((state: RootState) => state.favorite.filters.category)
 
   useEffect(() => {
     onGetFavorites(category);
+    console.log('fetch favorites - category: ', category);
   }, [category]);
-
-  const handleRefresh = () => {
-    onGetFavorites(category);
-  }
 
   const renderDropDownItem = (items: IFilterOption[]) => {
     return _map(items, (item) => <MenuItem key={item.key} value={item.key}>{item.name}</MenuItem>)
   }
+
+  const onCategoryChange = useCallback((category) => {
+    dispatch(updateCategory({category: category}));
+  }, [dispatch]);
 
   return (
     <>
@@ -35,14 +41,11 @@ export default ({ onGetFavorites }: FilterProps) => {
               id={'category-select'}
               label='Category'
               value={category}
-              onChange={(e) => setCategory(Number(e.target.value))}
+              onChange={(e) => onCategoryChange(Number(e.target.value))}
             >
               {renderDropDownItem(CATEGORIES)}
             </Select>
           </FormControl>
-        </Grid>
-        <Grid item xs={6}>
-          <Button variant="outlined" onClick={handleRefresh}>Refresh</Button>
         </Grid>
       </Grid>
     </>

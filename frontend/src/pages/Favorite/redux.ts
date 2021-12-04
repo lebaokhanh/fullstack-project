@@ -6,6 +6,7 @@ import {
   StoreFavoritesPayload,
   GetFavoritesAction,
   RemoveDislikedImagePayload,
+  UpdateCategoryPayload,
 } from './types';
 import {IImage} from "../../shared/types";
 
@@ -15,12 +16,15 @@ export const ON_GET_FAVORITES = actionFormatter('ON_GET_FAVORITES');
 export const STORE_FAVORITES = actionFormatter('STORE_FAVORITES');
 export const ON_DISLIKE_IMAGE = actionFormatter('ON_DISLIKE_IMAGE');
 export const REMOVE_DISLIKED_IMAGE = actionFormatter('REMOVE_DISLIKED_IMAGE');
+export const UPDATE_CATEGORY = actionFormatter('UPDATE_CATEGORY');
 
 export const onGetFavorites = (categoryId: string): GetFavoritesAction => ({
   type: ON_GET_FAVORITES, categoryId,
 });
 
 export const storeFavorites = createAction<StoreFavoritesPayload>(STORE_FAVORITES);
+
+export const updateCategory = createAction<UpdateCategoryPayload>(UPDATE_CATEGORY);
 
 export const onDislikeImage = (image: IImage, onSuccess: () => void, onError: () => void) => ({
   type: ON_DISLIKE_IMAGE, image, onSuccess, onError,
@@ -29,7 +33,10 @@ export const onDislikeImage = (image: IImage, onSuccess: () => void, onError: ()
 export const removeDislikedImage = createAction<RemoveDislikedImagePayload>(REMOVE_DISLIKED_IMAGE);
 
 const INITIAL_STATE: FavoriteState = {
-  images: []
+  images: [],
+  filters: {
+    category: 0
+  }
 };
 
 export default createReducer(INITIAL_STATE, (builder) => {
@@ -39,5 +46,7 @@ export default createReducer(INITIAL_STATE, (builder) => {
   builder.addCase(removeDislikedImage, (state, {payload}) => {
     const newImages = _filter(state.images, (image) => image.id !== payload.imageId);
     return {...state, images: newImages};
-  })
+  });
+  builder.addCase(updateCategory, (state, {payload}) => ({...state, filters: { category: payload.category}})
+  );
 });

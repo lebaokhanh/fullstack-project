@@ -13,9 +13,12 @@ export const TabPanel = (props: TabPanelProps) => {
 
   return (
     <div {...other}>
-      <Box sx={{ p: 3, display: value !== index ? 'none' : 'initial' }}>
-        {children}
-      </Box>
+      {/*<Box sx={{ p: 3, display: value !== index ? 'none' : 'initial' }}>*/}
+      {value === index && (
+        <Box sx={{ p: 3}}>
+          {children}
+        </Box>
+      )}
     </div>
   );
 }
