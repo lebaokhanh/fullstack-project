@@ -1,33 +1,41 @@
-import React, {useEffect, useState} from "react";
-import { Select, MenuItem, InputLabel, FormControl, Button, Grid } from "@mui/material";
+import React, { useCallback, useEffect } from "react";
+import {Select, MenuItem, InputLabel, FormControl, Button, Grid, SelectChangeEvent} from "@mui/material";
 import _map from 'lodash/map';
+import {useDispatch} from "react-redux";
 
 import {IFilterOption} from '../../shared/types';
 import {ORDERS, TYPES, CATEGORIES, BREEDS} from '../../shared/constants';
-import {SearchImagePayload} from "./types";
+import {SearchImagePayload, UpdateFilterPayload} from "./types";
+import {useSelector} from "react-redux";
+import {RootState} from "../../config/store";
+import {updateFilter} from "./redux";
 
 interface IFilter {
   onSearch: (params: SearchImagePayload) => void
 };
 
 export default ({onSearch}: IFilter) => {
-  const [order, setOrder] = useState(ORDERS[0].key);
-  const [type, setType] = useState(TYPES[0].key);
-  const [category, setCategory] = useState(CATEGORIES[0].key);
-  const [breed, setBreed] = useState(BREEDS[0].key);
-  const [page, setPage] = useState(0);
+  const dispatch = useDispatch();
+  const filters = useSelector((state: RootState) => state.search.filters);
+  const {order, type, category, breed, page} = filters;
 
   useEffect(() => {
-    const newPage = 0;
-    onSearch({ order, type, category, breed, page: newPage});
-    setPage(newPage);
-  }, [order, type, category, breed]);
+    onSearch(filters);
+  }, [order, type, category, breed, page]);
+
+  const onUpdateFilter = useCallback((newFilters: UpdateFilterPayload) => {
+    dispatch(updateFilter(newFilters));
+  }, [dispatch]);
+
+  const handleFilterChange = (e: SelectChangeEvent) => {
+    const newFilters = {...filters, [e.target.name]: e.target.value, page: 0};
+    onUpdateFilter(newFilters);
+  };
 
   const handleMore = () => {
-    const newPage = page + 1;
-    onSearch({ order, type, category, breed, page: newPage});
-    setPage(newPage);
-  }
+    const newFilters = {...filters, page: page + 1};
+    onUpdateFilter(newFilters);
+  };
 
   const renderDropDownItem = (items: IFilterOption[]) => {
     return _map(items, (item) => <MenuItem key={item.key} value={item.key}>{item.name}</MenuItem>)
@@ -44,7 +52,7 @@ export default ({onSearch}: IFilter) => {
               name={'order'}
               label='Order'
               value={order}
-              onChange={(e) => setOrder(e.target.value)}
+              onChange={handleFilterChange}
             >
               {renderDropDownItem(ORDERS)}
             </Select>
@@ -58,7 +66,7 @@ export default ({onSearch}: IFilter) => {
               name={'type'}
               label='Type'
               value={type}
-              onChange={(e) => setType(e.target.value)}
+              onChange={handleFilterChange}
             >
               {renderDropDownItem(TYPES)}
             </Select>
@@ -71,8 +79,8 @@ export default ({onSearch}: IFilter) => {
               labelId='category-label'
               name={'category'}
               label='Category'
-              value={category}
-              onChange={(e) => setCategory(Number(e.target.value))}
+              value={category.toString()}
+              onChange={handleFilterChange}
             >
               {renderDropDownItem(CATEGORIES)}
             </Select>
@@ -86,7 +94,7 @@ export default ({onSearch}: IFilter) => {
               name={'breed'}
               label='Breed'
               value={breed}
-              onChange={(e) => setBreed(e.target.value)}
+              onChange={handleFilterChange}
             >
               {renderDropDownItem(BREEDS)}
             </Select>

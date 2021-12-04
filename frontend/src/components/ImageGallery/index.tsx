@@ -9,16 +9,13 @@ import {IImage} from "../../shared/types";
 interface IImageGallery {
   images: IImage[];
   onLike?: (item: IImage, onSuccess: () => void, onError: () => void) => void;
-  onDislike: (item: IImage, onSuccess: () => void, onError: () => void) => void;
+  onDislike?: (item: IImage, onSuccess: () => void, onError: () => void) => void;
 }
 
 const ImageGallery = ({images, onLike, onDislike}: IImageGallery) => {
   const handleClick = (item: IImage) => {
-    if (!item.liked && onLike) {
-      onLike(item, onLikeSuccess, onLikeError);
-    } else {
-      onDislike(item, onDislikeSuccess, onDislikeError);
-    }
+    if (!item.liked && onLike) onLike(item, onLikeSuccess, onLikeError);
+    if (item.liked && onDislike) onDislike(item, onDislikeSuccess, onDislikeError);
   }
 
   const onLikeSuccess = () => {

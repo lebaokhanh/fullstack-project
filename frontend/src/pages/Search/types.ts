@@ -2,20 +2,28 @@ import {IImage} from "../../shared/types";
 import {
   ON_SEARCH_IMAGE,
   ON_LIKE_IMAGE,
-  ON_DISLIKE_IMAGE,
+  ON_DISLIKE_IMAGE, UPDATE_FILTER,
 } from './redux';
 
 export interface SearchState {
   images: IImage[];
+  filters: UpdateFilterPayload;
 }
 
-export interface SearchImagePayload {
+export interface UpdateFilterPayload {
   order: string;
   type: string;
   category: number;
   breed: string;
   page: number;
 }
+
+export interface UpdateFilterAction {
+  type: typeof UPDATE_FILTER;
+  payload: UpdateFilterPayload;
+}
+
+export type SearchImagePayload = | UpdateFilterPayload;
 
 export interface SearchImageAction {
   type: typeof ON_SEARCH_IMAGE;
