@@ -1,8 +1,10 @@
 import React, {useState, useCallback} from "react";
-import { Link } from "react-router-dom";
 import {useDispatch} from "react-redux";
+import {Box, Button} from "@mui/material";
+
 import {onLogIn} from "./redux";
 import {LogInPayload} from "./types";
+import Input from '../../components/Input';
 
 export default () => {
   const dispatch = useDispatch();
@@ -22,36 +24,21 @@ export default () => {
     dispatch(onLogIn(formValues));
   }, [])
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     onSubmit(formValues);
   }
 
   return (
     <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="username"
-          type="text"
-          name="username"
-          value={formValues['username']}
-          onChange={handleChange}
-        />
-        <input
-          placeholder="password"
-          type="password"
-          name="password"
-          value={formValues['password']}
-          onChange={handleChange}
-        />
-        <button placeholder="submit" type="submit">
-          Log In
-        </button>
-        <div>
-          or <Link to='/signup'>sign up</Link>
-        </div>
-      </form>
+      <Box sx={{width: '50%', height: '50%', margin: "0 auto"}}>
+        <h1>Login</h1>
+        <Input name='username' type={'text'} label={'Username'} value={formValues.username} onChange={handleChange} />
+        <br />
+        <Input name='password' type={'password'} label={'Password'} value={formValues.password} onChange={handleChange} />
+        <br />
+        <Button variant="contained" onClick={handleSubmit}>Log in</Button>
+      </Box>
     </>
   )
 }

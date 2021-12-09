@@ -1,9 +1,10 @@
 import React, {useCallback, useState} from "react";
-
-import {Link} from "react-router-dom";
-import {onSignUp} from "./redux";
 import {useDispatch} from "react-redux";
+import {Box, Button} from "@mui/material";
+
+import {onSignUp} from "./redux";
 import {SignUpPayload} from "./types";
+import Input from "../../components/Input";
 
 export default () => {
   const dispatch = useDispatch();
@@ -33,46 +34,13 @@ export default () => {
   }
 
   return (
-    <>
-      <div>
-        <h1>Sign Up</h1>
-        <form onSubmit={handleSubmit}>
-          <input
-            placeholder="username"
-            type="text"
-            name="username"
-            value={formValues['username']}
-            onChange={handleChange}
-          />
-          <input
-            placeholder="email"
-            type="text"
-            name="email"
-            value={formValues['email']}
-            onChange={handleChange}
-          />
-          <input
-            placeholder="password"
-            type="password"
-            name="password"
-            value={formValues['password']}
-            onChange={handleChange}
-          />
-          <input
-            placeholder="password confirmation"
-            type="password"
-            name="password_confirmation"
-            value={formValues['password_confirmation']}
-            onChange={handleChange}
-          />
-          <button placeholder="submit" type="submit">
-            Sign Up
-          </button>
-          <div>
-            or <Link to='/login'>Log in</Link>
-          </div>
-        </form>
-      </div>
-    </>
+      <Box sx={{width: '50%', height: '50%', margin: "0 auto"}}>
+        <h1>Signup</h1>
+        <Input name='username' type={'text'} label={'Username'} value={formValues.username} onChange={handleChange} />
+        <Input name='email' type={'text'} label={'Email'} value={formValues.email} onChange={handleChange} />
+        <Input name='password' type={'password'} label={'Password'} value={formValues.password} onChange={handleChange} />
+        <Input name='password_confirmation' type={'password'} label={'Password Confirmation'} value={formValues.password_confirmation} onChange={handleChange} />
+        <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+      </Box>
   )
 }
