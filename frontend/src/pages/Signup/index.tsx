@@ -23,13 +23,11 @@ export default () => {
   }
 
   const onSubmit = useCallback((formValues) => {
-    console.log('onSubmit');
     dispatch(onSignUp(formValues));
   }, [dispatch]);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log('handleSubmit');
     onSubmit(formValues);
   }
 

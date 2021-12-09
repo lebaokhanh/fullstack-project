@@ -9,12 +9,21 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import storeConfig from './config/store';
 
-
 axios.interceptors.request.use((config) => {
   config.baseURL = 'http://localhost:3010';
   config.withCredentials = true;
+
   return config;
 });
+
+axios.interceptors.response.use((response) => {
+  return response;
+}, (error) => {
+  if (error.response.status === 401) {
+    window.location.href = '/login';
+  }
+  return error;
+})
 
 ReactDOM.render(
   <Provider store={storeConfig()}>
