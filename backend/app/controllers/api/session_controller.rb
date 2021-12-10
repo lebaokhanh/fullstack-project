@@ -1,4 +1,6 @@
 class Api::SessionController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:is_logged_in?, :create]
+
   def create
     @user = User.find_by(username: session_params[:username])
 

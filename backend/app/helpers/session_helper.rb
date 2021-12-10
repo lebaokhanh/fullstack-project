@@ -16,6 +16,15 @@ module SessionHelper
   end
 
   def logout!
-    session.clear
+    session.delete(:user_id)
+    @current_user = nil
+  end
+
+  def authenticate_user!
+    unless logged_in? && current_user
+      render status: :unauthorized, json: {
+        error: :unauthorized
+      }
+    end
   end
 end
