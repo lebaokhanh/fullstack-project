@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import {MenuItem, Button, Grid, SelectChangeEvent} from "@mui/material";
 import _map from 'lodash/map';
 import {useDispatch} from "react-redux";
@@ -10,6 +10,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../config/store";
 import {updateFilter} from "./redux";
 import Select from '../../components/Select';
+import useFirstRender from "../../shared/useFirstRender";
 
 interface IFilter {
   onSearch: (params: SearchImagePayload) => void
@@ -18,9 +19,13 @@ interface IFilter {
 export default ({onSearch}: IFilter) => {
   const dispatch = useDispatch();
   const filters = useSelector((state: RootState) => state.search.filters);
+  const images = useSelector((state: RootState) => state.search.images);
   const {order, type, category, breed, page} = filters;
 
+  const firstRender = useFirstRender();
+
   useEffect(() => {
+    if (firstRender && images.length > 0) return;
     onSearch(filters);
   }, [order, type, category, breed, page]);
 
