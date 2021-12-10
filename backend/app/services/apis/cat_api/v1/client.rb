@@ -21,7 +21,7 @@ module Apis
             mime_types: params[:type] == 'all' ? '' : params[:type],
             order: params[:order],
             category_ids: params[:category] == '0' ? nil : params[:category],
-            breed_ids: params[:breed] == 'none' ? nil : params[:category]
+            breed_ids: params[:breed] == 'none' ? nil : params[:breed]
           }
           query_string = QueryString.stringify request_params
           request(
