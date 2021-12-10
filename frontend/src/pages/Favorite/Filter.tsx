@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
-import { Select, MenuItem, InputLabel, FormControl, Button, Grid } from "@mui/material";
+import { MenuItem, InputLabel, FormControl, Button, Grid } from "@mui/material";
 import _map from 'lodash/map';
 
 import {CATEGORIES} from '../../shared/constants';
@@ -8,6 +8,8 @@ import {IFilterOption} from '../../shared/types';
 import {useSelector} from "react-redux";
 import {RootState} from "../../config/store";
 import {updateCategory} from './redux';
+import Select from '../../components/Select';
+import {on} from "cluster";
 
 interface FilterProps {
   onGetFavorites: (categoryId: number) => void;
@@ -34,18 +36,9 @@ export default ({ onGetFavorites }: FilterProps) => {
     <>
       <Grid container spacing={1}>
         <Grid item xs={6}>
-          <FormControl sx={{ minWidth: '100%'}}>
-            <InputLabel id='category-label'>Category</InputLabel>
-            <Select
-              labelId='category-label'
-              id={'category-select'}
-              label='Category'
-              value={category}
-              onChange={(e) => onCategoryChange(Number(e.target.value))}
-            >
-              {renderDropDownItem(CATEGORIES)}
-            </Select>
-          </FormControl>
+          <Select label={'Category'} onChange={(e) => onCategoryChange(Number(e.target.value))} value={category} name={'category'}>
+            {renderDropDownItem(CATEGORIES)}
+          </Select>
         </Grid>
       </Grid>
     </>

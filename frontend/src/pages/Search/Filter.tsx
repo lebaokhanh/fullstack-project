@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import {Select, MenuItem, InputLabel, FormControl, Button, Grid, SelectChangeEvent} from "@mui/material";
+import {MenuItem, Button, Grid, SelectChangeEvent} from "@mui/material";
 import _map from 'lodash/map';
 import {useDispatch} from "react-redux";
 
@@ -9,6 +9,7 @@ import {SearchImagePayload, UpdateFilterPayload} from "./types";
 import {useSelector} from "react-redux";
 import {RootState} from "../../config/store";
 import {updateFilter} from "./redux";
+import Select from '../../components/Select';
 
 interface IFilter {
   onSearch: (params: SearchImagePayload) => void
@@ -45,60 +46,24 @@ export default ({onSearch}: IFilter) => {
     <>
       <Grid container spacing={1}>
         <Grid item xs={6}>
-          <FormControl sx={{ minWidth: '100%'}}>
-            <InputLabel id='order-label'>Order</InputLabel>
-            <Select
-              labelId='order-label'
-              name={'order'}
-              label='Order'
-              value={order}
-              onChange={handleFilterChange}
-            >
-              {renderDropDownItem(ORDERS)}
-            </Select>
-          </FormControl>
+          <Select name={'order'} label={'Order'} value={order} onChange={handleFilterChange}>
+            {renderDropDownItem(ORDERS)}
+          </Select>
         </Grid>
         <Grid item xs={6}>
-          <FormControl sx={{ minWidth: '100%'}}>
-            <InputLabel id='type-label'>Type</InputLabel>
-            <Select
-              labelId='type-label'
-              name={'type'}
-              label='Type'
-              value={type}
-              onChange={handleFilterChange}
-            >
-              {renderDropDownItem(TYPES)}
-            </Select>
-          </FormControl>
+          <Select name={'type'} label={'Type'} value={type} onChange={handleFilterChange}>
+            {renderDropDownItem(TYPES)}
+          </Select>
         </Grid>
         <Grid item xs={6}>
-          <FormControl sx={{ minWidth: '100%'}}>
-            <InputLabel id='category-label'>Category</InputLabel>
-            <Select
-              labelId='category-label'
-              name={'category'}
-              label='Category'
-              value={category.toString()}
-              onChange={handleFilterChange}
-            >
-              {renderDropDownItem(CATEGORIES)}
-            </Select>
-          </FormControl>
+          <Select name={'category'} label={'Category'} value={category} onChange={handleFilterChange}>
+            {renderDropDownItem(CATEGORIES)}
+          </Select>
         </Grid>
         <Grid item xs={6}>
-          <FormControl sx={{ minWidth: '100%'}}>
-            <InputLabel id='breed-label'>Breed</InputLabel>
-            <Select
-              labelId='breed-label'
-              name={'breed'}
-              label='Breed'
-              value={breed}
-              onChange={handleFilterChange}
-            >
-              {renderDropDownItem(BREEDS)}
-            </Select>
-          </FormControl>
+          <Select name={'breed'} label={'Breed'} value={breed} onChange={handleFilterChange}>
+            {renderDropDownItem(BREEDS)}
+          </Select>
         </Grid>
         <Grid item xs={6}>
           <Button variant="outlined" onClick={handleMore}>More</Button>
