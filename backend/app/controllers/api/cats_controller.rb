@@ -2,12 +2,13 @@ class Api::CatsController < ApplicationController
   def search
     begin
       response = client.search(params)
+      liked_image_ids = service.filter_liked_image_ids(response)
       formatted_response = response.map do |item|
         {
           url: item[:url],
           id: item[:id],
           category_id: item[:categories] ? item[:categories].first[:id] : nil,
-          liked: false
+          liked: liked_image_ids.include?(item[:id])
         }
       end
       render json: { status: :success, images: formatted_response }
@@ -58,6 +59,10 @@ class Api::CatsController < ApplicationController
 
   def client
     Apis::CatAPI::V1::Client.new(ENV['API_KEY'])
+  end
+
+  def service
+    Apis::SearchService.new(current_user)
   end
 
 end
